@@ -59,7 +59,7 @@ jobs:
         IMAGE_TAG: ${{ github.sha }}
       run: |
         aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin $REGISTRY
-        docker build -t $REPOSITORY .
+        docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
         docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
 
   cd:
