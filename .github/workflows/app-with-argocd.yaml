@@ -1,6 +1,8 @@
 name: App With Github Actions with EKS, ArgoCD
-on: workflow_dispatch
-
+on: 
+  push:
+    paths-ignore:
+      - 'manifest/**'
 jobs:
   ci:
     runs-on: ubuntu-latest
@@ -58,8 +60,8 @@ jobs:
         IMAGE_TAG: ${{ github.sha }}
       run: |
         aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin $REGISTRY
-        docker build -t $REGISTRY_ALIAS/$REPOSITORY:$IMAGE_TAG .
-        docker push $REGISTRY_ALIAS/$REPOSITORY:$IMAGE_TAG
+        docker build -t $REPOSITORY .
+        docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
 
   cd:
     runs-on: ubuntu-latest
